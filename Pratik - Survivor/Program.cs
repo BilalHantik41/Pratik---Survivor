@@ -24,6 +24,12 @@ builder.Services.AddDbContext<SurvivorDbContext>(options =>
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    // Bu sayfa, HTTP 500 gibi hatalarda detaylı exception bilgisi gösterir.
+    app.UseDeveloperExceptionPage();
+}
+
 // Middleware’lar
 app.UseHttpsRedirection();
 

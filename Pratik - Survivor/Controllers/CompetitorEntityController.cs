@@ -1,76 +1,172 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// Controllers/CompetitorsController.cs
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pratik___Survivor.Context;
+using Pratik___Survivor.Dtos;
 using Pratik___Survivor.Entities;
-using static Pratik___Survivor.Context.SurvivorDbContext;
 
 
 namespace Pratik___Survivor.Controllers
 {
-   
-        [ApiController]
-        [Route("api/competitors")]
-        public class CompetitorEntityController : ControllerBase
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CompetitorsController : ControllerBase
+    {
+        private readonly SurvivorDbContext _context;
+
+        public CompetitorsController(SurvivorDbContext context)
+            => _context = context;
+
+        // GET: api/competitors
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CompetitorDto>>> GetAll()
         {
-            private readonly SurvivorDbContext _context;
-            public CompetitorEntityController(SurvivorDbContext context) => _context = context;
+            var list = await _context.Competitors
+                .Where(c => !c.IsDeleted)
+                .Include(c => c.Category)
+                .Select(c => new CompetitorDto
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    FullName = $"{c.FirstName} {c.LastName}",
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Category!.Name
+                })
+                .ToListAsync();
 
-            [HttpGet]
-            public async Task<IActionResult> GetAll() =>
-                Ok(await _context.Competitors.Include(c => c.Category).ToListAsync());
+            return Ok(list);
+        }
 
-            [HttpGet("{id}")]
-            public async Task<IActionResult> GetById(int id)
+        // GET: api/competitors/{id}
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CompetitorDto>> GetById(int id)
+        {
+            var dto = await _context.Competitors
+                .Where(c => c.Id == id && !c.IsDeleted)
+                .Include(c => c.Category)
+                .Select(c => new CompetitorDto
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    FullName = $"{c.FirstName} {c.LastName}",
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Category!.Name
+                })
+                .FirstOrDefaultAsync();
+
+            if (dto == null)
+                return NotFound();
+
+            return Ok(dto);
+        }
+
+        // GET: api/competitors/categories/{categoryId}
+        [HttpGet("categories/{categoryId:int}")]
+        public async Task<ActionResult<IEnumerable<CompetitorDto>>> GetByCategory(int categoryId)
+        {
+            var list = await _context.Competitors
+                .Where(c => c.CategoryId == categoryId && !c.IsDeleted)
+                .Include(c => c.Category)
+                .Select(c => new CompetitorDto
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    FullName = $"{c.FirstName} {c.LastName}",
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Category!.Name
+                })
+                .ToListAsync();
+
+            return Ok(list);
+        }
+
+        // POST: api/competitors
+        [HttpPost]
+        public async Task<ActionResult<CompetitorDto>> Create([FromBody] CreateCompetitorDto input)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var entity = new CompetitorEntity
             {
-                var competitor = await _context.Competitors.FindAsync(id);
-                return competitor == null ? NotFound() : Ok(competitor);
-            }
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                CategoryId = input.CategoryId,
+                CreatedDate = DateTime.UtcNow,
+                ModifiedDate = DateTime.UtcNow,
+                IsDeleted = false
+            };
 
-            [HttpGet("categories/{categoryId}")]
-            public async Task<IActionResult> GetByCategory(int categoryId)
+            _context.Competitors.Add(entity);
+            await _context.SaveChangesAsync();
+
+            // İlişkili Category’i yükle
+            await _context.Entry(entity).Reference(c => c.Category).LoadAsync();
+
+            // Çıktı DTO’su oluştur
+            var dto = new CompetitorDto
             {
-                var competitors = await _context.Competitors
-                    .Where(c => c.CategoryId == categoryId).ToListAsync();
-                return Ok(competitors);
-            }
+                Id = entity.Id,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                FullName = $"{entity.FirstName} {entity.LastName}",
+                CategoryId = entity.CategoryId,
+                CategoryName = entity.Category!.Name
+            };
 
-            [HttpPost]
-            public async Task<IActionResult> Create(CompetitorEntity competitor)
-            {
-                competitor.CreatedDate = DateTime.UtcNow;
-                competitor.ModifiedDate = DateTime.UtcNow;
-                competitor.IsDeleted = false;
+            return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
+        }
 
-                _context.Competitors.Add(competitor);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetById), new { id = competitor.Id }, competitor);
-            }
 
-            [HttpPut("{id}")]
-            public async Task<IActionResult> Update(int id, CompetitorEntity updated)
-            {
-                var competitor = await _context.Competitors.FindAsync(id);
-                if (competitor == null) return NotFound();
+        // PUT: api/competitors/{id}
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCompetitorDto input)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                competitor.FirstName = updated.FirstName;
-                competitor.LastName = updated.LastName;
-                competitor.CategoryId = updated.CategoryId;
-                competitor.ModifiedDate = DateTime.UtcNow;
+            if (id != input.Id)
+                return BadRequest("URL’deki id, gövdedeki id ile eşleşmiyor.");
 
-                await _context.SaveChangesAsync();
-                return NoContent();
-            }
+            // Geçerli kategori kontrolü
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == input.CategoryId && !c.IsDeleted);
+            if (category == null)
+                return BadRequest($"CategoryId = {input.CategoryId} geçersiz veya silinmiş.");
 
-            [HttpDelete("{id}")]
-            public async Task<IActionResult> Delete(int id)
-            {
-                var competitor = await _context.Competitors.FindAsync(id);
-                if (competitor == null) return NotFound();
+            var entity = await _context.Competitors.FindAsync(id);
+            if (entity == null || entity.IsDeleted)
+                return NotFound();
 
-                _context.Competitors.Remove(competitor);
-                await _context.SaveChangesAsync();
-                return NoContent();
-            }
+            // Alanları güncelle
+            entity.FirstName = input.FirstName;
+            entity.LastName = input.LastName;
+            entity.CategoryId = input.CategoryId;
+            entity.ModifiedDate = DateTime.UtcNow;
+
+            // Eğer DB'de FullName tutuluyorsa:
+            // entity.FullName = $"{input.FirstName} {input.LastName}";
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // DELETE: api/competitors/{id}
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var entity = await _context.Competitors.FindAsync(id);
+            if (entity == null || entity.IsDeleted)
+                return NotFound();
+
+            entity.IsDeleted = true;
+            entity.ModifiedDate = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
-
+}

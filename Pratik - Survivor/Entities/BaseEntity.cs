@@ -1,6 +1,6 @@
 ﻿namespace Pratik___Survivor.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         public BaseEntity()
         {
