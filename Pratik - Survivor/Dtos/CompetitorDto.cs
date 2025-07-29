@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string FirstName { get; set; } = default!;
         public string LastName { get; set; } = default!;
-        public string FullName { get; set; } = default!;
+        //public string FullName => string.Join(", ", FirstName, LastName);
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = default!;
     }

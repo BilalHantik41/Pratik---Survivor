@@ -35,7 +35,7 @@ namespace Pratik___Survivor.Controllers
                                        Id = x.Id,
                                        FirstName = x.FirstName,
                                        LastName = x.LastName,
-                                       FullName = $"{x.FirstName} {x.LastName}",
+                                       //FullName = $"{x.FirstName} {x.LastName}",
                                        CategoryId = x.CategoryId,
                                        CategoryName = c.Name
                                    })
@@ -64,7 +64,7 @@ namespace Pratik___Survivor.Controllers
                                        Id = x.Id,
                                        FirstName = x.FirstName,
                                        LastName = x.LastName,
-                                       FullName = $"{x.FirstName} {x.LastName}",
+                                       //FullName = $"{x.FirstName} {x.LastName}",
                                        CategoryId = x.CategoryId,
                                        CategoryName = c.Name
                                    })

@@ -8,7 +8,7 @@ namespace Pratik___Survivor.Entities
         public string FirstName { get; set; } = default!;
         public string LastName { get; set; } = default!;
 
-        [NotMapped]                // EF Core artık tabloya kolon eklemez
+        
         public string FullName => $"{FirstName} {LastName}";
 
         public int CategoryId { get; set; }

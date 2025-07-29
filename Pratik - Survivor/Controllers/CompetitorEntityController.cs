@@ -29,7 +29,7 @@ namespace Pratik___Survivor.Controllers
                     Id = c.Id,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
-                    FullName = $"{c.FirstName} {c.LastName}",
+                   // FullName = $"{c.FirstName} {c.LastName}",
                     CategoryId = c.CategoryId,
                     CategoryName = c.Category!.Name
                 })
@@ -50,7 +50,7 @@ namespace Pratik___Survivor.Controllers
                     Id = c.Id,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
-                    FullName = $"{c.FirstName} {c.LastName}",
+                   // FullName = $"{c.FirstName} {c.LastName}",
                     CategoryId = c.CategoryId,
                     CategoryName = c.Category!.Name
                 })
@@ -74,7 +74,7 @@ namespace Pratik___Survivor.Controllers
                     Id = c.Id,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
-                    FullName = $"{c.FirstName} {c.LastName}",
+                    //FullName = $"{c.FirstName} {c.LastName}",
                     CategoryId = c.CategoryId,
                     CategoryName = c.Category!.Name
                 })
@@ -112,7 +112,7 @@ namespace Pratik___Survivor.Controllers
                 Id = entity.Id,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
-                FullName = $"{entity.FirstName} {entity.LastName}",
+               
                 CategoryId = entity.CategoryId,
                 CategoryName = entity.Category!.Name
             };

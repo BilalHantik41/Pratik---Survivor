@@ -12,8 +12,6 @@ namespace Pratik___Survivor.Dtos
 
         [Required]
         public int CategoryId { get; set; }
-        [Required]
-        public int Id { get; set; }
-
+        
     }
 }

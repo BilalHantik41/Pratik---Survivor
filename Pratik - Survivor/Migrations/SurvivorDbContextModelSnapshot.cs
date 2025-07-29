@@ -84,10 +84,6 @@ namespace Pratik___Survivor.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -111,7 +107,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Acun",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Ilıcalı",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -122,7 +117,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Aleyna",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Avcı",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -133,7 +127,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Hadise",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Açıkgöz",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -144,7 +137,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Sertan",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Bozkuş",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -155,7 +147,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Özge",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Açık",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -166,7 +157,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Kıvanç",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Tatlıtuğ",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -177,7 +167,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 2,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ahmet",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Yılmaz",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -188,7 +177,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 2,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Elif",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Demirtaş",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -199,7 +187,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 2,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Cem",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Öztürk",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
@@ -210,7 +197,6 @@ namespace Pratik___Survivor.Migrations
                             CategoryId = 2,
                             CreatedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ayşe",
-                            FullName = "FirstName LastName",
                             IsDeleted = false,
                             LastName = "Karaca",
                             ModifiedDate = new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
